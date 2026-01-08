@@ -795,13 +795,36 @@ video{
 
   </div>
 </div>
-
-
-
 </div>
+
+  <!-- 🎵 BACKGROUND MUSIC (PASTE HERE) -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="deewaniyat.mp3" type="audio/mpeg">
+  </audio>
+
 
 
 <script>
+const bgMusic = document.getElementById("bgMusic");
+bgMusic.volume = 0.7;
+let musicStarted = false;
+
+// start music on first user interaction
+document.addEventListener("click", () => {
+  if (!musicStarted) {
+    bgMusic.currentTime = 0; // always start from beginning
+    bgMusic.play().catch(()=>{});
+    musicStarted = true;
+  }
+});
+
+function restartExperience() {
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+  bgMusic.play();
+  show("countdown");
+}
+ 
 const show = id => {
   document.querySelectorAll(".section").forEach(s=>{
     s.style.opacity=0;
@@ -832,7 +855,7 @@ document.querySelector(".decorate-btn").onclick = () => {
    cakeVideo.play().catch(err => {
     console.log("Video play blocked:", err);
   });
-
+bgMusic.volume = 0.19; // 🔽 LOWER MUSIC during video
   show("celebrate");
   launchConfettiCenter();
 };
@@ -840,6 +863,7 @@ document.querySelector(".decorate-btn").onclick = () => {
 /*document.querySelector(".pop-btn").onclick=()=>show("balloons");*/
 document.querySelector(".pop-btn").onclick = () => {
   document.getElementById("cakeVideo").pause();
+   bgMusic.volume = 0.7; // 🔊 BACK to normal
   show("balloons");
 };
 
